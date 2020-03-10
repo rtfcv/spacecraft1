@@ -1,0 +1,1 @@
+flags = -IC:\msys64\mingw64\include\eigen3 -IC:\msys64\mingw64\include\c++\9.2.0

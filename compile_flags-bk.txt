@@ -1,0 +1,9 @@
+-fopenmp
+-static
+-Ofast
+-lstdc++
+-march=native
+–target=i686–target=i686-pc-windows-gnu
+-pipe
+-I.
+-IC:\msys64\mingw64\include\eigen3

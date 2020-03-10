@@ -1,0 +1,4 @@
+-lstdc++
+-I.
+-IC:\msys64\mingw64\include\eigen3
+-I/usr/include/eigen3/
