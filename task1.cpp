@@ -3,9 +3,17 @@
 #include <functional>
 
 task1::task1(){
+    w_none << 0,0,0; 
+    _Ixx=1.9;
+    _Iyy=1.6;
+    _Izz=2.0;
+    _w_is_not_set=true;  //external force is undefined for now;
+
+    std::cout<<"c1\n";
+
     //define function to integrate
-    std::function<Eigen::VectorXd(double, Eigen::VectorXd, Eigen::Vector3d)> ydot = [&](double t, Eigen::VectorXd yin, Eigen::Vector3d win){
-        Eigen::Vector4d q = yin.segment(0,3);
+    ydot = [&](double t, Eigen::VectorXd yin, Eigen::Vector3d win){
+        Eigen::Vector4d q = yin.segment(0,4);
         double omegax=yin(4);
         double omegay=yin(5);
         double omegaz=yin(6);
@@ -17,6 +25,8 @@ task1::task1(){
         _ydot(3) = 0.5*(-omegax*q(2)+omegay*q(1)+omegaz*q(0));
 
         _ydot(4) = (+_Iyy*omegay*omegaz-_Izz*omegay*omegaz+win(0))/_Ixx;
+        _ydot(5) = (-_Ixx*omegax*omegaz+_Izz*omegax*omegaz+win(1))/_Iyy;
+        _ydot(6) = (+_Ixx*omegax*omegay-_Iyy*omegax*omegay+win(2))/_Izz;
 
         return _ydot;
     };
@@ -25,15 +35,10 @@ task1::task1(){
     std::function<Eigen::VectorXd(double, Eigen::VectorXd)> ydot_no_w = [&](double t, Eigen::VectorXd yin){
         return ydot(t, yin, w_none);
     };
-
-    //ydot with no external force
-    std::function<Eigen::VectorXd(double, Eigen::VectorXd)> ydot_with_w = [&](double t, Eigen::VectorXd yin){
-        Eigen::Vector3d w_rand;
-        //generate random w here
-        return ydot(t, yin, w_rand);
-    };
-
     euler_eq_simu.set_func(ydot_no_w);
-    euler_eq_true.set_func(ydot_no_w);
 }
 
+int task1::h(double hin){
+    _h=hin;
+    return 0;
+}
