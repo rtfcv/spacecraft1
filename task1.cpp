@@ -9,8 +9,6 @@ task1::task1(){
     _Izz=2.0;
     _w_is_not_set=true;  //external force is undefined for now;
 
-    std::cout<<"c1\n";
-
     //define function to integrate
     ydot = [&](double t, Eigen::VectorXd yin, Eigen::Vector3d win){
         Eigen::Vector4d q = yin.segment(0,4);

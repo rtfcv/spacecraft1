@@ -37,6 +37,7 @@ class task2{
 
     task1 _task1;
     double _h_obs;
+    double _h_sim;
     Eigen::MatrixXd _A(Eigen::VectorXd);
     Eigen::MatrixXd _H1(Eigen::VectorXd);
     Eigen::MatrixXd _H2(Eigen::VectorXd);

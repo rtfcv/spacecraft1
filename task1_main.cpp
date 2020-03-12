@@ -12,12 +12,10 @@ int main(){
     int n = 1000;
     Eigen::VectorXd y0(7);
 
-    std::cout << "1";
 
     double omegas = 17.0/60.0 *2*_pi;
     y0 << 1.0 , 0.0, 0.0, 0.0, 0.1, omegas + 0.1, 0.0;
 
-    std::cout << "2";
 
     Eigen::MatrixXd res1(7,n+1);
     res1 = _task1.simulate_sys(y0, 0, n);

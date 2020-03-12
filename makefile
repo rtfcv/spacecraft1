@@ -3,11 +3,13 @@ ProjectName=spaceCraft1
 #compiler settings
 CXX=g++
 
-#change -O3 or -Ofast to -O2 if something goes wrong
-CXXFLAGS += -fopenmp -static -lstdc++ -Ofast -march=native -pipe
+# change -O3 or -Ofast to -O2 if something goes wrong
+# CXXFLAGS += -fopenmp -static -lstdc++ -Ofast -march=native -pipe
+# CXXFLAGS += -static -lstdc++ -Ofast -march=native -pipe
+CXXFLAGS += -static -lstdc++ -g3 -march=native -pipe
 
 #include files below
-CXXFLAGS += -I. -I C:\msys64\mingw64\include\eigen3
+CXXFLAGS += -I. -I C:\msys64\mingw64\include\eigen3 -I/usr/include/eigen3
 
 #descrive target manually
 #former depends on latter

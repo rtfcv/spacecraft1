@@ -9,7 +9,9 @@ Eigen::MatrixXd task1::simulate_sys(Eigen::VectorXd y0, double t0, int n){
 
 Eigen::MatrixXd task1::simulate_env(Eigen::VectorXd y0, double t0, int n){
     euler_eq_true.seth(_h);
-    return euler_eq_true.rk4(y0, t0, n);
+    Eigen::MatrixXd _outPut(y0.rows(), n+1);
+    _outPut=euler_eq_true.rk4(y0, t0, n);
+    return _outPut;
 }
 
 int task1::set_w_func(std::function<Eigen::Vector3d (double, Eigen::VectorXd)>& w_func){

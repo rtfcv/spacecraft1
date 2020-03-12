@@ -3,6 +3,7 @@
 #include<iostream>
 
 task2::task2(){
+    _steps_between_observations=10;
     set_I(1.9, 1.6, 2.0);
     set_h_obs(1);
     set_stdev_v(0.01);
@@ -13,6 +14,7 @@ task2::task2(){
 }
 
 task2::task2(int seed_w, int seed_col, int seed_obs){
+    _steps_between_observations=10;
     set_I(1.9, 1.6, 2.0);
     set_h_obs(1);
     set_stdev_v(0.01);
@@ -31,8 +33,11 @@ int task2::set_stdev_w(double stdev){
     _Qprime=Eigen::Matrix3d::Identity()*0.5*stdev*stdev;
     return 0;
 }
+
 int task2::set_h_obs(double h_obs){
-    _h_obs=1;
+    _h_obs=h_obs;
+    _h_sim=_h_obs/_steps_between_observations;
+    _task1.h(_h_sim);
     return 0;
 }
 
@@ -77,6 +82,8 @@ int task2::set_seed(int seed_w, int seed_col, int seed_obs){
         _mtw1.seed(_mtw1());
         _mtw2.seed(_mtw2());
         Eigen::Vector3d _w(_norm(_mtw0), _norm(_mtw1), _norm(_mtw2));
+        std::cout<<"w on t="<<t<<std::endl;
+        std::cout<<_w<<std::endl;
         return _w;
     };
     _task1.set_w_func(w_func);
@@ -87,6 +94,49 @@ int task2::save(){
     //Eigen::MatrixXd _y_env_result;
     //Eigen::MatrixXd _y_sim_result;
     //Eigen::MatrixXd _P_diag_result;
+    int _n_y=_y_env_result.cols();
+    int _n_obs=_P_diag_result.cols();
+    Eigen::VectorXd _time_y(_n_y);
+    Eigen::VectorXd _time_obs(_n_obs);
+
+    for(int i=0; i<_n_y; i++){
+        _time_y(i)=_h_sim*i;
+    }
+    for(int i=0; i<_n_obs; i++){
+        _time_obs(i)=_h_obs*i;
+    }
+
+    savexy(_time_y, _y_env_result.row(0), "task2_q0_env.dat");
+    savexy(_time_y, _y_env_result.row(1), "task2_q1_env.dat");
+    savexy(_time_y, _y_env_result.row(2), "task2_q2_env.dat");
+    savexy(_time_y, _y_env_result.row(3), "task2_q3_env.dat");
+    savexy(_time_y, _y_env_result.row(4), "task2_omegax_env.dat");
+    savexy(_time_y, _y_env_result.row(5), "task2_omegay_env.dat");
+    savexy(_time_y, _y_env_result.row(6), "task2_omegaz_env.dat");
+
+    savexy(_time_y, _y_sim_result.row(0), "task2_q0_sim.dat");
+    savexy(_time_y, _y_sim_result.row(1), "task2_q1_sim.dat");
+    savexy(_time_y, _y_sim_result.row(2), "task2_q2_sim.dat");
+    savexy(_time_y, _y_sim_result.row(3), "task2_q3_sim.dat");
+    savexy(_time_y, _y_sim_result.row(4), "task2_omegax_sim.dat");
+    savexy(_time_y, _y_sim_result.row(5), "task2_omegay_sim.dat");
+    savexy(_time_y, _y_sim_result.row(6), "task2_omegaz_sim.dat");
+
+    savexy(_time_y, _y_env_result.row(0)-_y_sim_result.row(0), "task2_q0_delta.dat");
+    savexy(_time_y, _y_env_result.row(1)-_y_sim_result.row(1), "task2_q1_delta.dat");
+    savexy(_time_y, _y_env_result.row(2)-_y_sim_result.row(2), "task2_q2_delta.dat");
+    savexy(_time_y, _y_env_result.row(3)-_y_sim_result.row(3), "task2_q3_delta.dat");
+    savexy(_time_y, _y_env_result.row(4)-_y_sim_result.row(4), "task2_omegax_delta.dat");
+    savexy(_time_y, _y_env_result.row(5)-_y_sim_result.row(5), "task2_omegay_delta.dat");
+    savexy(_time_y, _y_env_result.row(6)-_y_sim_result.row(6), "task2_omegaz_delta.dat");
+
+    savexy(_time_obs, _P_diag_result.row(0), "task2_P11.dat");
+    savexy(_time_obs, _P_diag_result.row(1), "task2_P22.dat");
+    savexy(_time_obs, _P_diag_result.row(2), "task2_P33.dat");
+    savexy(_time_obs, _P_diag_result.row(3), "task2_P44.dat");
+    savexy(_time_obs, _P_diag_result.row(4), "task2_P55.dat");
+    savexy(_time_obs, _P_diag_result.row(5), "task2_P66.dat");
+    savexy(_time_obs, _P_diag_result.row(6), "task2_P77.dat");
     return 0;
 }
 
