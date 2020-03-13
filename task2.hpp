@@ -38,6 +38,8 @@ class task2{
     task1 _task1;
     double _h_obs;
     double _h_sim;
+
+    //functions for use in simulator
     Eigen::MatrixXd _A(Eigen::VectorXd);
     Eigen::MatrixXd _H1(Eigen::VectorXd);
     Eigen::MatrixXd _H2(Eigen::VectorXd);
@@ -51,9 +53,13 @@ class task2{
     Eigen::Matrix3d _Qprime;
     Eigen::Matrix3d _R;
 
+    //result variables
     Eigen::MatrixXd _y_env_result;
     Eigen::MatrixXd _y_sim_result;
     Eigen::MatrixXd _P_diag_result;
+    Eigen::VectorXd _i_eq_1;
+    Eigen::VectorXd _i_eq_2;
+    Eigen::VectorXd _i_eq_3;
 
 public:
     task2();
@@ -64,7 +70,7 @@ public:
     int set_I(double, double, double);
     int set_stdev_w(double);
     int set_stdev_v(double);
-    int simulate_sym_filtered(int, Eigen::VectorXd);
+    int simulate_sym_filtered(int, Eigen::VectorXd, Eigen::VectorXd);
     int save();
     void __test(int);
 };

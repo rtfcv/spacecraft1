@@ -12,6 +12,7 @@ task1::task1(){
     //define function to integrate
     ydot = [&](double t, Eigen::VectorXd yin, Eigen::Vector3d win){
         Eigen::Vector4d q = yin.segment(0,4);
+        q=q/q.norm();
         double omegax=yin(4);
         double omegay=yin(5);
         double omegaz=yin(6);

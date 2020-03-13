@@ -137,6 +137,10 @@ int task2::save(){
     savexy(_time_obs, _P_diag_result.row(4), "task2_P55.dat");
     savexy(_time_obs, _P_diag_result.row(5), "task2_P66.dat");
     savexy(_time_obs, _P_diag_result.row(6), "task2_P77.dat");
+
+    savexy(_time_obs, _i_eq_1, "col_1.dat");
+    savexy(_time_obs, _i_eq_2, "col_2.dat");
+    savexy(_time_obs, _i_eq_3, "col_3.dat");
     return 0;
 }
 
