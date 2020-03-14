@@ -20,7 +20,8 @@ int main(){
     Eigen::MatrixXd res1(7,n+1);
     res1 = _task1.simulate_sys(y0, 0, n);
 
-    std::cout << "3";
+    Eigen::MatrixXd res2(3,n+1);
+    res2 = _task1.analytic_omega(y0, 0, n);
 
     Eigen::VectorXd time(n+1);
     for(int i=0; i <= n; i++){
@@ -36,6 +37,22 @@ int main(){
     savexy(time, res1.row(4), "omega0_k1.dat");
     savexy(time, res1.row(5), "omega1_k1.dat");
     savexy(time, res1.row(6), "omega2_k1.dat");
+
+    savexy(time, res2.row(0), "omega0_k1_analytic.dat");
+    savexy(time, res2.row(1), "omega1_k1_analytic.dat");
+    savexy(time, res2.row(2), "omega2_k1_analytic.dat");
+
+    Eigen::MatrixXd res3=res2;
+    
+    
+
+    res3.row(0)=res1.row(4)-res3.row(0);
+    res3.row(1)=res1.row(5)-res3.row(1);    
+    res3.row(2)=res1.row(6)-res3.row(2);
+
+    savexy(time, res3.row(0), "omega0_k1_delta.dat");
+    savexy(time, res3.row(1), "omega1_k1_delta.dat");
+    savexy(time, res3.row(2), "omega2_k1_delta.dat");
 
     return 0;
 }

@@ -2,7 +2,7 @@
 #include "save.hpp"
 #include <iostream>
 #include <Eigen/Dense>
-#include <my/ini.h>
+#include <my/ini.hpp>
 
 int main(){
     double _pi = std::acos(-1);

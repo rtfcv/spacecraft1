@@ -13,8 +13,8 @@ int task2::simulate_sym_filtered(int t, Eigen::VectorXd y0_env, Eigen::VectorXd 
     _i_eq_2 = _nan*Eigen::VectorXd::Ones(t+1);
     _i_eq_3 = _nan*Eigen::VectorXd::Ones(t+1);
 
-    //save the result for the actual value
-    _y_env_result=_task1.simulate_env(y0_env, 0, t*_steps_between_observations);
+    // //save the result for the actual value
+    // _y_env_result=_task1.simulate_env(y0_env, 0, t*_steps_between_observations);
 
     Eigen::MatrixXd _sim_res(7, 1+_steps_between_observations);
     int i=0;
@@ -23,14 +23,35 @@ int task2::simulate_sym_filtered(int t, Eigen::VectorXd y0_env, Eigen::VectorXd 
     Eigen::MatrixXd I=Eigen::MatrixXd::Identity(7,7);
     Eigen::MatrixXd IAinv(7,7);
     Eigen::MatrixXd Gamma_n(7,3);
-    Eigen::MatrixXd P_n=I*1;
+    Eigen::MatrixXd P_n=I*0.1;
     Eigen::MatrixXd P_nt1=P_n;
     Eigen::MatrixXd M_nt1(7,7);
     Eigen::MatrixXd H_int1(7,3);
     Eigen::MatrixXd K_nt1(7,7);
 
-    Eigen::VectorXd yn=y0_sim;
-    Eigen::VectorXd ynt1=y0_sim;
+    Eigen::VectorXd yn=y0_env;
+    Eigen::VectorXd ynt1=y0_env;
+    Eigen::Vector4d _q_old;
+
+    //calculate the actual value first
+    for (int n=0; n<t; n++){  //n corresponds to number of observations
+        //assert previous result
+        yn=ynt1;  
+        //normalize the quarternions
+        _q_old=yn.segment(0,4);
+        yn.segment(0,4)=_q_old/_q_old.norm();
+
+        //calculate from nth observation up to (n+1)th observation
+        _sim_res=_task1.simulate_env(yn, n, _steps_between_observations);
+        ynt1=_sim_res.col(_steps_between_observations);
+
+        _y_env_result.block(0,n*_steps_between_observations,
+                7, _steps_between_observations+1)=_sim_res;
+    }
+
+    //prepare for system simulation
+    yn=y0_sim;
+    ynt1=y0_sim;
     Eigen::VectorXd xhat=y0_sim*0;
 
     Eigen::VectorXd xbar=y0_sim*0;
@@ -42,10 +63,14 @@ int task2::simulate_sym_filtered(int t, Eigen::VectorXd y0_env, Eigen::VectorXd 
     _P_diag_result.col(0) << std::sqrt(P_n(0,0)), std::sqrt(P_n(1,1)), std::sqrt(P_n(2,2)),
         std::sqrt(P_n(3,3)), std::sqrt(P_n(4,4)), std::sqrt(P_n(5,5)), std::sqrt(P_n(6,6));
 
+    //do the simulation for estimations
     for (int n=0; n<t; n++){  //n corresponds to number of observations
         //assert previous result
         yn=ynt1+xhat;  
         P_n=P_nt1;
+        //normalize the quarternions
+        _q_old=yn.segment(0,4);
+        yn.segment(0,4)=_q_old/_q_old.norm();
 
         //calculate from nth observation up to (n+1)th observation
         _sim_res=_task1.simulate_sys(yn, n, _steps_between_observations);
