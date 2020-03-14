@@ -1,0 +1,11 @@
+update
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# ブランチ master
+# このブランチは 'origin/master' よりも4コミット進んでいます。
+#   (use "git push" to publish your local commits)
+#
+# コミット予定の変更点:
+#	modified:   RK.hpp
+#

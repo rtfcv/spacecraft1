@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 dca23f05529d2743e9666e9db8600b11850f8ee3 rt <dummy@email.address> 1583822000 +0900	clone: from /c/Users/rt/Dropbox/common/include/my/
+dca23f05529d2743e9666e9db8600b11850f8ee3 5bb9e51ae609ebd13099545b0b5705bb0bcf3f3c rt <dummy@email.address> 1583823106 +0900	commit: minor rewrite
+5bb9e51ae609ebd13099545b0b5705bb0bcf3f3c 0a80037f29d3f15c2d1729b3c22faaef7d9807a8 rt <dummy@email.address> 1583825957 +0900	commit: minor change
+0a80037f29d3f15c2d1729b3c22faaef7d9807a8 ab56e233977300eb4e5e7dfbfe75b752a77c55d2 rt <dummy@email.address> 1583839813 +0900	commit: changed the name so that clangd can work
+ab56e233977300eb4e5e7dfbfe75b752a77c55d2 920b53754c0ec380ebc528a2d83bd0cc80c4f6f4 rt <rt@home.local> 1584103452 +0900	commit: renamed ini.h to ini.hpp
+920b53754c0ec380ebc528a2d83bd0cc80c4f6f4 73a7649d0bd99ca949b2a6dbb688f6c9b9a5a183 rt <rt@home.local> 1584103481 +0900	commit: update
