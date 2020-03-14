@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "enter name to identify this result"
 read fname
 mkdir $fname
 gnuplot ./gnuplot_omega.gp
